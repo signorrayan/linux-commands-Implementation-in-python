@@ -2,10 +2,9 @@ from shutil import copy2, copytree
 import sys
 import os
 
-
+currentDirectory = os.getcwd()
 
 def main():
-    currentDirectory = os.getcwd()
     script = sys.argv[0]
     source = sys.argv[1]
     destination = sys.argv[2]
