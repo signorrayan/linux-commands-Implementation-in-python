@@ -2,16 +2,17 @@ from shutil import copy2, copytree
 import sys
 import os
 
-currentDirectory = os.getcwd()
+
 
 def main():
+    currentDirectory = os.getcwd()
     script = sys.argv[0]
     source = sys.argv[1]
     destination = sys.argv[2]
     process(source, destination)
 
 
-def destination_check(src, destination, action):
+def destination_check(source, destination, action):
     if destination.startswith('./'):  #exp: cp ./filename ./other_destination_directory/
         destination = f"{currentDirectory}/{destination.lstrip('./')}"
         if os.path.isdir(os.path.dirname(destination)):  # if ./other_destination_directory Exists
@@ -29,10 +30,10 @@ def process(source, destination):
     if source.startswith('./'):  # cp ./filename /destination_path
         source = f"{currentDirectory}/{source.lstrip('./')}"
         if os.path.isfile(source):
-            dst_check(source, destination, copy2(source, destination))
+            destination_check(source, destination, copy2(source, destination))
 
         elif os.path.isdir(source):
-            dst_check(source, destination, copytree(source, destination))
+            destination_check(source, destination, copytree(source, destination))
 
         else:
             print('No Such file or directory!')
@@ -40,10 +41,10 @@ def process(source, destination):
     elif destination.startswith('./'):
         destination = f"{currentDirectory}/{destination.lstrip('./')}"
         if os.path.isfile(source):
-            dst_check(source, destination, copy2(source, destination))
+            destination_check(source, destination, copy2(source, destination))
 
         elif os.path.isdir(source):
-            dst_check(source, destination, copytree(source, destination))
+            destination_check(source, destination, copytree(source, destination))
 
         else:
             print('No Such file or directory!')
