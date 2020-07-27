@@ -13,13 +13,12 @@ def main():
 
 def destination_check(source, destination, action):
     if destination.startswith('./'):  #exp: cp ./filename ./other_destination_directory/
-        try:
-            destination = f"{currentDirectory}/{destination.lstrip('./')}"
-            if os.path.isdir(os.path.dirname(destination)):  # if ./other_destination_directory Exists
-                action
+        destination = f"{currentDirectory}/{destination.lstrip('./')}"
+        if os.path.isdir(os.path.dirname(destination)):  # if ./other_destination_directory Exists
+            action
 
-        except NotADirectoryError:
-           return ("There isn't a directory")
+        else:
+            print("There isn't a directory")
 
     else:
         if os.path.isdir(os.path.dirname(destination)):
@@ -28,28 +27,26 @@ def destination_check(source, destination, action):
 
 def process(source, destination):
     if source.startswith('./'):  # cp ./filename /destination_path
-        try:
-            source = f"{currentDirectory}/{source.lstrip('./')}"
-            if os.path.isfile(source):
-                destination_check(source, destination, copy2(source, destination))
+        source = f"{currentDirectory}/{source.lstrip('./')}"
+        if os.path.isfile(source):
+            destination_check(source, destination, copy2(source, destination))
 
-            elif os.path.isdir(source):
-                destination_check(source, destination, copytree(source, destination))
+        elif os.path.isdir(source):
+            destination_check(source, destination, copytree(source, destination))
 
-        except NotADirectoryError:
-            return 'No Such file or directory!'
+        else:
+            print('No Such file or directory!')
 
     elif destination.startswith('./'):
-        try:
-            destination = f"{currentDirectory}/{destination.lstrip('./')}"
-            if os.path.isfile(source):
-                destination_check(source, destination, copy2(source, destination))
+        destination = f"{currentDirectory}/{destination.lstrip('./')}"
+        if os.path.isfile(source):
+            destination_check(source, destination, copy2(source, destination))
 
-            elif os.path.isdir(source):
-                destination_check(source, destination, copytree(source, destination))
+        elif os.path.isdir(source):
+            destination_check(source, destination, copytree(source, destination))
 
-        except NotADirectoryError:
-            return 'No Such file or directory!'
+        else:
+            print('No Such file or directory!')
 
 
 if __name__ == '__main__':
