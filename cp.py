@@ -13,13 +13,13 @@ def main():
 
 def destination_check(source, destination, action):
     if destination.startswith('./'):  #exp: cp ./filename ./other_destination_directory/
-        destination = f"{currentDirectory}/{destination.lstrip('./')}"
-        if os.path.isdir(os.path.dirname(destination)):  # if ./other_destination_directory Exists
-            try:
+        try:
+            destination = f"{currentDirectory}/{destination.lstrip('./')}"
+            if os.path.isdir(os.path.dirname(destination)):  # if ./other_destination_directory Exists
                 action
 
-            except NotADirectoryError:
-                return "There isn't a directory"
+        except NotADirectoryError:
+           return ("There isn't a directory")
 
     else:
         if os.path.isdir(os.path.dirname(destination)):
@@ -28,20 +28,16 @@ def destination_check(source, destination, action):
 
 def process(source, destination):
     if source.startswith('./'):  # cp ./filename /destination_path
-        source = f"{currentDirectory}/{source.lstrip('./')}"
-        if os.path.isfile(source):
-            try:
+        try:
+            source = f"{currentDirectory}/{source.lstrip('./')}"
+            if os.path.isfile(source):
                 destination_check(source, destination, copy2(source, destination))
 
-            except NotADirectoryError as nd:
-                return f'No Such file or directory! {nd}'
-
-        elif os.path.isdir(source):
-            try:
+            elif os.path.isdir(source):
                 destination_check(source, destination, copytree(source, destination))
 
-            except NotADirectoryError as nd:
-                return f'No Such file or directory! {nd}'
+        except NotADirectoryError:
+            return 'No Such file or directory!'
 
     elif destination.startswith('./'):
         try:
@@ -52,11 +48,8 @@ def process(source, destination):
             elif os.path.isdir(source):
                 destination_check(source, destination, copytree(source, destination))
 
-        except NotADirectoryError as nd:
-            return f'No Such file or directory! {nd}'
-
-        except PermissionError:
-            return 0
+        except NotADirectoryError:
+            return 'No Such file or directory!'
 
 
 if __name__ == '__main__':
