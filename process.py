@@ -8,29 +8,34 @@ BOLD = '\033[1m'
 def process_l(path):
     if path.startswith('./'):
         path = f"{currentDirectory}/{path.lstrip('./')}"
-    for file_dir in reversed(os.listdir(os.getcwd())):
-        mask = oct(os.stat(file_dir).st_mode)[-3:]
-        rwx = symbolic_notation(mask)
+        if os.path.isdir(path):
+            for file_dir in reversed(os.listdir(os.getcwd())):
+                mask = oct(os.stat(file_dir).st_mode)[-3:]
+                rwx = symbolic_notation(mask)
 
-        if file_dir.startswith('.'):
-            continue
-        elif os.path.isdir(file_dir):
-            print(f"d{rwx:10} {BOLD}{Fore.GREEN}{file_dir}{Style.RESET_ALL}")
+                if file_dir.startswith('.'):
+                    continue
+                elif os.path.isdir(file_dir):
+                    print(f"d{rwx:10} {BOLD}{Fore.GREEN}{file_dir}{Style.RESET_ALL}")
+                else:
+                    print(f"-{rwx:10} {file_dir}")
         else:
-            print(f"-{rwx:10} {file_dir}")
-
+            print("There is not a directory")
 
 def process_la(path):
     if path.startswith('./'):
         path = f"{currentDirectory}/{path.lstrip('./')}"
-    for file_dir in reversed(os.listdir(os.getcwd())):
-        mask = oct(os.stat(file_dir).st_mode)[-3:]
-        rwx = symbolic_notation(mask)
+        if os.path.isdir(path):
+            for file_dir in reversed(os.listdir(os.getcwd())):
+                mask = oct(os.stat(file_dir).st_mode)[-3:]
+                rwx = symbolic_notation(mask)
 
-        if os.path.isdir(file_dir):
-            print(f"d{rwx:10} {BOLD}{Fore.GREEN}{file_dir}{Style.RESET_ALL}")
+                if os.path.isdir(file_dir):
+                    print(f"d{rwx:10} {BOLD}{Fore.GREEN}{file_dir}{Style.RESET_ALL}")
+                else:
+                    print(f"-{rwx:10} {file_dir}")
         else:
-            print(f"-{rwx:10} {file_dir}")
+            print("There is not a directory")
 
 
 def symbolic_notation(mask):
