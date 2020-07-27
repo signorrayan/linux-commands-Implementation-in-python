@@ -1,24 +1,21 @@
-from symbolic import symbolic_notation
+import process
 import os, sys
-
-currentDirectory = os.getcwd()
 
 def main():
     script = sys.argv[0]
-    #switches = sys.argv[2]
-    path = sys.argv[1]
-    process(path)
+    path = sys.argv[2]
+    action = sys.argv[1]
+    assert action in ['-l', '-a', '-la'],\
+            'Action is not one of -l, -a: ' + action
+    action_righs(action, path)
 
-def process(path):
-    if path.startswith('./'):
-        path = f"{currentDirectory}/{path.lstrip('./')}"
-    for file_dir in reversed(os.listdir(os.getcwd())):
-        mask = oct(os.stat(file_dir).st_mode)[-3:]
-        rwx = symbolic_notation(mask)
-        if os.path.isdir(file_dir):
-            print(f"d{rwx:10} {file_dir}", end='\n')
-        else:
-            print(f"-{rwx:10} {file_dir}", end='\n')
+
+def action_righs(action, path):
+    if action == '-l':
+        process.process_l(path)
+
+    elif action == '-a' or '-la':
+        process.process_la(path)
 
 
 if __name__ == '__main__':

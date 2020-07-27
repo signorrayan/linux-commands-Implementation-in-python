@@ -15,10 +15,11 @@ def destination_check(source, destination, action):
     if destination.startswith('./'):  #exp: cp ./filename ./other_destination_directory/
         destination = f"{currentDirectory}/{destination.lstrip('./')}"
         if os.path.isdir(os.path.dirname(destination)):  # if ./other_destination_directory Exists
-            action
+            try:
+                action
 
-        else:
-            print("There isn't a directory")
+            except NotADirectoryError:
+                return "There isn't a directory"
 
     else:
         if os.path.isdir(os.path.dirname(destination)):
@@ -29,24 +30,33 @@ def process(source, destination):
     if source.startswith('./'):  # cp ./filename /destination_path
         source = f"{currentDirectory}/{source.lstrip('./')}"
         if os.path.isfile(source):
-            destination_check(source, destination, copy2(source, destination))
+            try:
+                destination_check(source, destination, copy2(source, destination))
+
+            except NotADirectoryError as nd:
+                return f'No Such file or directory! {nd}'
 
         elif os.path.isdir(source):
-            destination_check(source, destination, copytree(source, destination))
+            try:
+                destination_check(source, destination, copytree(source, destination))
 
-        else:
-            print('No Such file or directory!')
+            except NotADirectoryError as nd:
+                return f'No Such file or directory! {nd}'
 
     elif destination.startswith('./'):
-        destination = f"{currentDirectory}/{destination.lstrip('./')}"
-        if os.path.isfile(source):
-            destination_check(source, destination, copy2(source, destination))
+        try:
+            destination = f"{currentDirectory}/{destination.lstrip('./')}"
+            if os.path.isfile(source):
+                destination_check(source, destination, copy2(source, destination))
 
-        elif os.path.isdir(source):
-            destination_check(source, destination, copytree(source, destination))
+            elif os.path.isdir(source):
+                destination_check(source, destination, copytree(source, destination))
 
-        else:
-            print('No Such file or directory!')
+        except NotADirectoryError as nd:
+            return f'No Such file or directory! {nd}'
+
+        except PermissionError:
+            return 0
 
 
 if __name__ == '__main__':
