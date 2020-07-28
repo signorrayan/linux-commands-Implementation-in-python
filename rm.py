@@ -21,6 +21,9 @@ def main():
                 remove_file(file)
 
 def remove_file(path):
+    """
+    this function will call when we don't use any switch and only want to delete files.
+    """
     if path.startswith('./'):
         path = f"{currentDirectory}/%s" %path.lstrip('./')
     if os.path.isdir(path):
@@ -29,6 +32,9 @@ def remove_file(path):
     os.remove(path)
 
 def remove_directory(path):
+    """
+    this function will call when we use -r switch to delete a directory
+    """
     if path.startswith('./'):
         path = f"{currentDirectory}/%s" %path.lstrip('./')
     if os.path.isfile(path):
