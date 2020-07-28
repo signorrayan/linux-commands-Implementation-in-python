@@ -1,4 +1,5 @@
-from shutil import copy2, copytree
+from shutil import copy2
+from distutils.dir_util import copy_tree
 import sys
 import os
 
@@ -12,41 +13,23 @@ def main():
 
 
 def destination_check(source, destination, action):
-    if destination.startswith('./'):  #exp: cp ./filename ./other_destination_directory/
-        destination = f"{currentDirectory}/{destination.lstrip('./')}"
-        if os.path.isdir(os.path.dirname(destination)):  # if ./other_destination_directory Exists
-            action
-
-        else:
-            print("There isn't a directory")
-
-    else:
-        if os.path.isdir(os.path.dirname(destination)):
-            action
+    if destination.startswith('./'):  #if it wasn't $FULLPATH change it to Full path
+        destination = f"{currentDirectory}/{destination.lstrip('./')}/"
+    action
 
 
 def process(source, destination):
-    if source.startswith('./'):  # cp ./filename /destination_path
+    if source.startswith('./'):  # change the source path to $FULLPATH
         source = f"{currentDirectory}/{source.lstrip('./')}"
-        if os.path.isfile(source):
-            destination_check(source, destination, copy2(source, destination))
 
-        elif os.path.isdir(source):
-            destination_check(source, destination, copytree(source, destination))
+    if os.path.isfile(source): #if it was a file, use the copy2 method
+        destination_check(source, destination, copy2(source, destination))
 
-        else:
-            print('No Such file or directory!')
+    elif os.path.isdir(source): #if it was a directory, reqursively copy the files
+        destination_check(source, destination, copy_tree(source, destination))
 
-    elif destination.startswith('./'):
-        destination = f"{currentDirectory}/{destination.lstrip('./')}"
-        if os.path.isfile(source):
-            destination_check(source, destination, copy2(source, destination))
-
-        elif os.path.isdir(source):
-            destination_check(source, destination, copytree(source, destination))
-
-        else:
-            print('No Such file or directory!')
+    else:
+        print('No Such file or directory!')
 
 
 if __name__ == '__main__':
