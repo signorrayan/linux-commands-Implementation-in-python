@@ -1,5 +1,6 @@
-import os, shutil, sys
+#the rm command implementation
 
+import os, shutil, sys
 
 currentDirectory = os.getcwd()
 
@@ -11,12 +12,12 @@ def main():
             switch = switch_path[0]
             assert switch in ['-r'], 'Switch can be -r to delete a directory reqursively!'
             path = switch_path[1]
-            remove_directory(path) #the remove_directory
+            remove_directory(path) #remove_directory will call
 
         else: #if we don't pass any switch, it means we want to delete file/files.
             path = switch_path[0:]
             for file in path:
-                #if we have more that one file that psased after the script, this loop will remove all passed arguments
+                #if we have more than one file that psased after the script, this loop will remove all passed arguments
                 remove_file(file)
 
 def remove_file(path):
