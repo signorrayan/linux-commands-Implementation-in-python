@@ -1,4 +1,5 @@
 #this script use the "process.py" file in the branch to process the listing items.
+# ls {-l, -a, -la} path
 
 import process
 import os, sys
@@ -14,10 +15,10 @@ def main():
 
 def action_righs(action, path):
     if action == '-l':
-        process.process_l(action, path) #this function
+        process.process_l(path) #this function will call when we want normal files (not hidden)
 
     elif action == '-a' or '-la':
-        process.process_la(path)
+        process.process_la(path) #this function will call when we want all files(including hidden files).
 
 if __name__ == '__main__':
     main()
