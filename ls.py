@@ -6,7 +6,7 @@ def main():
     path = sys.argv[2]
     action = sys.argv[1]
     assert action in ['-l', '-a', '-la'],\
-            'Action is not one of -l, -a: ' + action
+            'Action %s is not one of -l, -a: ' % action
     action_righs(action, path)
 
 
@@ -16,7 +16,6 @@ def action_righs(action, path):
 
     elif action == '-a' or '-la':
         process.process_la(path)
-
 
 if __name__ == '__main__':
     main()
