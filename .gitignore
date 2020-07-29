@@ -2,3 +2,5 @@
 __pycache__/
 p-a-p/
 check_ls.py
+process_new.py
+ls_new.py
