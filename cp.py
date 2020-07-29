@@ -14,13 +14,13 @@ def main():
 
 def destination_check(source, destination, action):
     if destination.startswith('./'):  #if it wasn't $FULLPATH change it to Full path
-        destination = f"{currentDirectory}/{destination.lstrip('./')}/"
+        destination = os.path.join(currentDirectory, destination.lstrip('./'))
     action
 
 
 def process(source, destination):
     if source.startswith('./'):  # change the source path to $FULLPATH
-        source = f"{currentDirectory}/{source.lstrip('./')}"
+        source = os.path.join(currentDirectory, source.lstrip('./'))
 
     if os.path.isfile(source): #if it was a file, use the copy2 method
         destination_check(source, destination, copy2(source, destination))
